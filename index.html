@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>War Zone – Official Book Landing</title>
+<title>WAR ZONE – Official Landing</title>
 
 <style>
-/* ------------------------------
-   PALETTE & FONT
------------------------------- */
+/* ------------------------------------
+   PALETTE / FONT / BASE
+------------------------------------- */
 :root {
-  --black: #0a0a0a;
-  --gray: #1b1b1b;
+  --black: #000;
+  --dark: #0d0d0d;
+  --gray: #1a1a1a;
   --gold: #c8a96a;
   --white: #f2f2f2;
-  --red: #b81f24;
   --font-main: "Inter", sans-serif;
   --font-title: "Playfair Display", serif;
 }
@@ -27,189 +27,239 @@ body {
   overflow-x: hidden;
 }
 
-/* ------------------------------
-   HERO SECTION
------------------------------- */
+/* ------------------------------------
+   VIDEO BACKGROUND
+------------------------------------- */
+.video-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.15;
+  z-index: -2;
+}
+
+/* Nebbia overlay */
+.nebbia {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: url('https://i.imgur.com/lCMlw8G.png');
+  background-size: cover;
+  opacity: 0.25;
+  mix-blend-mode: screen;
+  z-index: -1;
+}
+
+/* ------------------------------------
+   HERO
+------------------------------------- */
 .hero {
-  position: relative;
-  padding: 120px 20px;
   text-align: center;
-  background: linear-gradient(180deg, #000000 0%, #0f0f0f 100%);
+  padding: 180px 20px 120px;
 }
 
 .hero h1 {
   font-family: var(--font-title);
-  font-size: 52px;
-  line-height: 1.1;
-  margin-bottom: 20px;
+  font-size: 60px;
   color: var(--gold);
+  line-height: 1;
+  margin-bottom: 20px;
 }
 
 .hero p {
-  font-size: 20px;
-  max-width: 600px;
+  font-size: 22px;
+  max-width: 650px;
   margin: 0 auto 40px;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
-.hero img {
-  width: 260px;
-  margin-top: 30px;
-  border: 3px solid var(--gold);
-  border-radius: 8px;
-  box-shadow: 0 0 30px rgba(200,169,106,0.2);
-}
-
-/* CTA Amazon */
 .btn-amazon {
   display: inline-block;
-  background: var(--red);
-  color: var(--white);
-  padding: 16px 36px;
-  border-radius: 6px;
+  background: var(--gold);
+  color: var(--black);
+  padding: 16px 38px;
   font-size: 20px;
+  border-radius: 6px;
+  font-weight: 700;
   text-decoration: none;
-  font-weight: bold;
-  box-shadow: 0 0 12px rgba(184,31,36,0.5);
   transition: 0.3s;
 }
-.btn-amazon:hover {
-  background: #e3262c;
-  box-shadow: 0 0 18px rgba(227,38,44,0.8);
+.btn-amazon:hover { transform: scale(1.06); }
+
+.copertina {
+  margin-top: 50px;
+  width: 320px;
+  filter: drop-shadow(0px 0px 25px rgba(200,169,106,0.4));
+  animation: tilt 6s ease-in-out infinite alternate;
 }
 
-/* ------------------------------
-   SEZIONI STANDARD
------------------------------- */
+@keyframes tilt {
+  from { transform: rotateY(-4deg); }
+  to   { transform: rotateY(4deg); }
+}
+
+/* ------------------------------------
+   SECTION GLOBAL
+------------------------------------- */
 section {
-  padding: 80px 20px;
-  max-width: 900px;
-  margin: 0 auto;
+  padding: 120px 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* TITOLI */
+h2 {
+  font-family: var(--font-title);
+  font-size: 46px;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* ------------------------------------
+   SPLIT SCROLL
+------------------------------------- */
+.split {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.split div {
+  flex: 1;
+  background: linear-gradient(180deg, #0d0d0d, #161616);
+  padding: 30px;
+  border-radius: 8px;
+  border: 1px solid #222;
+  min-width: 260px;
   text-align: center;
 }
 
-h2 {
+.split div h3 {
   font-family: var(--font-title);
-  font-size: 40px;
-  margin-bottom: 25px;
+  font-size: 26px;
   color: var(--gold);
 }
 
-/* ------------------------------
-   CARDS RACCONTI
------------------------------- */
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+/* ------------------------------------
+   CAROUSEL FRASE
+------------------------------------- */
+.carousel {
+  margin-top: 60px;
+  font-size: 26px;
+  text-align: center;
+  min-height: 40px;
+  opacity: 0.9;
+  animation: carousel 12s infinite;
 }
 
-.card {
-  background: var(--gray);
-  padding: 25px;
-  border-radius: 8px;
-  width: 280px;
-  border: 1px solid #222;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+@keyframes carousel {
+  0%   { content:"Most people fear what they cannot explain."; }
+  33%  { content:"Darkness is not the enemy. Ignorance is."; }
+  66%  { content:"Every truth begins where comfort ends."; }
 }
 
-.card h3 {
-  font-family: var(--font-title);
-  font-size: 24px;
-  color: var(--gold);
+.carousel::after {
+  content: "Most people fear what they cannot explain.";
+  animation: testo 12s infinite;
 }
 
-/* ------------------------------
+@keyframes testo {
+  0%,20%   { content:"Most people fear what they cannot explain."; }
+  33%,53%  { content:"Darkness is not the enemy. Ignorance is."; }
+  66%,86%  { content:"Every truth begins where comfort ends."; }
+}
+
+/* ------------------------------------
    AUTORE
------------------------------- */
+------------------------------------- */
 .autore {
-  background: linear-gradient(180deg, #0f0f0f, #000000);
-  padding: 80px 20px;
-}
-
-.autore p {
+  text-align: center;
   max-width: 700px;
-  margin: 0 auto;
+  margin: auto;
   opacity: 0.85;
-  font-size: 18px;
   line-height: 1.6;
+  font-size: 20px;
 }
 
-/* ------------------------------
+/* ------------------------------------
    CTA FINALE
------------------------------- */
+------------------------------------- */
 .final-cta {
-  background: #000000;
-  padding: 90px 20px;
+  text-align:center;
+  padding:150px 20px;
+  background: #000;
 }
-
 .final-cta h2 {
-  font-size: 42px;
+  font-size: 50px;
 }
-
-.final-cta a {
-  margin-top: 30px;
-}
+.final-cta a { margin-top:40px; display:inline-block; }
 
 @media(max-width: 600px){
-  .hero h1 { font-size: 36px; }
-  .hero p { font-size: 18px; }
-  .btn-amazon { font-size: 18px; padding: 14px 28px; }
-  .card { width: 90%; }
+  .hero h1{ font-size: 40px; }
+  .hero p{ font-size: 18px; }
+  .copertina{ width: 250px; }
+  h2{ font-size: 32px; }
+  .carousel{ font-size: 20px; }
 }
 </style>
-
 </head>
-
 <body>
+
+<!-- VIDEO -->
+<video class="video-bg" autoplay muted loop>
+  <source src="https://cdn.coverr.co/videos/coverr-the-dark-smoke-1076/1080p.mp4" type="video/mp4">
+</video>
+
+<div class="nebbia"></div>
 
 <!-- HERO -->
 <div class="hero">
   <h1>WAR ZONE</h1>
-  <p>Tre storie. Tre abissi. Tre verità che nessuno vorrebbe conoscere.  
-  Un viaggio dentro l’oscurità umana.</p>
+  <p>Tre racconti che ti trascinano nell’oscurità.  
+  Dove la paura diventa rivelazione.</p>
 
   <a class="btn-amazon" href="https://amzn.eu/d/alqwCAU" target="_blank">Acquista su Amazon</a>
 
-  <br><br>
-  <img src="https://qrimpresa.github.io/War-Zone/cover.jpg" alt="War Zone Book Cover">
+  <img class="copertina" src="https://qrimpresa.github.io/War-Zone/cover.jpg" alt="Copertina War Zone">
 </div>
 
-<!-- SEZIONE – RACCONTI -->
+<!-- SEZIONE – ESPERIENZA -->
 <section>
-  <h2>Cosa Troverai nel Libro</h2>
+  <h2>Clarity in the Darkness</h2>
 
-  <div class="cards">
-    <div class="card">
+  <div class="split">
+    <div>
       <h3>Inferno</h3>
-      <p>Una discesa nel buio tra droga, perdizione e presenze che non appartengono a questo mondo.</p>
+      <p>Una spirale di droga, demoni interiori e ombre che non appartengono a questo mondo.</p>
     </div>
-
-    <div class="card">
+    <div>
       <h3>La Casa sul Lago</h3>
-      <p>Un uomo tormentato, una casa isolata, e una verità che giace in fondo all’acqua.</p>
+      <p>Una mente tormentata. Una casa silenziosa. Un segreto che galleggia appena sotto la superficie.</p>
     </div>
-
-    <div class="card">
+    <div>
       <h3>Punto d’Origine</h3>
-      <p>Ogni storia ha un inizio. Ma non sempre conviene scoprirlo davvero.</p>
+      <p>Ogni male ha un inizio. Ma non sempre conviene scoprirlo davvero.</p>
     </div>
   </div>
+
+  <div class="carousel"></div>
 </section>
 
 <!-- AUTORE -->
-<section class="autore">
-  <h2>L'Autore</h2>
-  <p>Cosimo Mero esplora le zone d’ombra dell’animo umano e le trasforma in racconti che rimangono impressi.  
-  War Zone è il risultato di un lavoro crudo, diretto, senza filtri.  
-  Tre storie che ti entrano dentro e non ti lasciano andare.</p>
+<section>
+  <h2>Chi Ha Osato Scriverlo</h2>
+  <p class="autore">
+    Cosimo Mero scava nelle zone d’ombra dell’animo umano e le trasforma in storie che restano impresse.  
+    War Zone non è un libro da leggere: è un’esperienza che cambia la percezione di ciò che chiamiamo “paura”.
+  </p>
 </section>
 
 <!-- CTA FINALE -->
 <section class="final-cta">
   <h2>Osa Entrare nella Zona</h2>
-  <a class="btn-amazon" href="https://amzn.eu/d/alqwCAU" target="_blank">Acquista War Zone su Amazon</a>
+  <a class="btn-amazon" href="https://amzn.eu/d/alqwCAU" target="_blank">Acquista War Zone</a>
 </section>
 
 </body>
