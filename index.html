@@ -39,7 +39,7 @@ body {
   position: relative;
 }
 
-/* Lampeggio lento e glitch */
+/* Lampeggio lento e glitch solo sul titolo */
 @keyframes blinkGlitch {
   0%, 60%, 100% { opacity: 1; transform: translate(0,0); color:#d4ae61; }
   10% { opacity: 0; transform: translate(-2px,1px); color:#ffcc00; }
@@ -61,6 +61,7 @@ body {
   margin-top: 20px;
   font-size: 1.2rem;
   white-space: pre-wrap;
+  color: #fff;
 }
 
 /* ---------------------- COPERTINA + CTA ---------------------- */
@@ -70,8 +71,6 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  animation: fadeInCover 1.5s forwards;
-  animation-delay: 7s; /* compare dopo intro */
 }
 
 @keyframes fadeInCover {
@@ -119,7 +118,7 @@ body {
 // Blocca lampeggio/glitch dopo 4 secondi
 setTimeout(() => {
   const title = document.getElementById("warzone-title");
-  title.classList.remove("blink");
+  title.classList.remove("blink"); // titolo si ferma
   title.style.transform = "none";
   title.style.color = "#d4ae61";
   title.style.opacity = "1";
@@ -129,7 +128,7 @@ setTimeout(() => {
 const audio = new Audio('https://www.soundjay.com/keyboard/sounds/keyboard-1.mp3');
 audio.volume = 0.15;
 
-// Macchina da scrivere con suono
+// Macchina da scrivere senza tremolio
 function typeWriter(element, speed) {
   const text = element.innerText;
   element.innerText = "";
@@ -144,10 +143,18 @@ function typeWriter(element, speed) {
   }, speed);
 }
 
-// Lancia typing in sequenza
+// Sequenza typing frasi
 setTimeout(() => { typeWriter(document.getElementById("t1"), 60); }, 4200);
 setTimeout(() => { typeWriter(document.getElementById("t2"), 60); }, 5200);
 setTimeout(() => { typeWriter(document.getElementById("t3"), 60); }, 6200);
+
+// Alla fine del typing, nascondi intro e mostra copertina + pulsante
+setTimeout(() => {
+  document.getElementById("intro").style.display = "none";
+  const cover = document.getElementById("cover-container");
+  cover.style.opacity = "1";
+  cover.style.animation = "fadeInCover 1.5s forwards";
+}, 7200);
 </script>
 
 </body>
