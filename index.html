@@ -15,6 +15,7 @@ body {
   color: #fff;
   font-family: "Inter", sans-serif;
   overflow: hidden;
+  text-align: center;
 }
 
 /* ---------------------- INTRO ---------------------- */
@@ -27,12 +28,6 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 10;
-  animation: hideIntro 1s ease forwards;
-  animation-delay: 9s;
-}
-
-@keyframes hideIntro {
-  to { opacity: 0; visibility: hidden; }
 }
 
 .title {
@@ -65,37 +60,33 @@ body {
   opacity: 0;
   margin-top: 20px;
   font-size: 1.2rem;
-  text-align: center;
   white-space: pre-wrap;
 }
 
-/* ---------------------- LANDING ---------------------- */
-#content {
+/* ---------------------- COPERTINA + CTA ---------------------- */
+#cover-container {
   opacity: 0;
-  animation: showContent 1.3s ease forwards;
-  animation-delay: 9.2s;
-  padding-bottom: 50px;
-}
-
-@keyframes showContent { to { opacity: 1; } }
-
-.hero {
-  height: 100vh;
-  background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.82)),
-    url('https://images.unsplash.com/photo-1604937455095-ef81f125f7a8?q=80&w=1200&auto=format&fit=crop')
-    center/cover no-repeat;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  padding: 0 20px;
+  align-items: center;
+  gap: 20px;
+  animation: fadeInCover 1.5s forwards;
+  animation-delay: 7s; /* compare dopo intro */
 }
 
-.hero h1 { font-size: 3rem; margin-bottom: 20px; }
-.hero p { font-size: 1.2rem; opacity: 0.85; }
+@keyframes fadeInCover {
+  0% { opacity: 0; transform: translateY(-50px) scale(0.8); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+#cover-container img {
+  width: 250px;
+  max-width: 70%;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.5);
+}
 
 .cta-btn {
-  margin-top: 40px;
   display: inline-block;
   padding: 16px 30px;
   background: #d4ae61;
@@ -106,17 +97,6 @@ body {
   transition: .3s;
 }
 .cta-btn:hover { transform: scale(1.06); }
-
-.preview {
-  padding: 50px 20px;
-  text-align: center;
-}
-.preview img {
-  width: 70%;
-  max-width: 300px;
-  border-radius: 8px;
-  box-shadow: 0 8px 40px rgba(0,0,0,.5);
-}
 </style>
 </head>
 <body>
@@ -129,8 +109,14 @@ body {
   <div id="t3" class="txt-seq">Entra. Se hai il coraggio.</div>
 </div>
 
+<!-- COPERTINA + PULSANTE -->
+<div id="cover-container">
+  <img src="https://qrimpresa.github.io/War-Zone/cover.png" alt="Copertina War Zone">
+  <a class="cta-btn" href="https://amzn.eu/d/alqwCAU" target="_blank">Acquista su Amazon</a>
+</div>
+
 <script>
-// Blocca il lampeggio/glitch dopo 4 secondi
+// Blocca lampeggio/glitch dopo 4 secondi
 setTimeout(() => {
   const title = document.getElementById("warzone-title");
   title.classList.remove("blink");
@@ -143,7 +129,7 @@ setTimeout(() => {
 const audio = new Audio('https://www.soundjay.com/keyboard/sounds/keyboard-1.mp3');
 audio.volume = 0.15;
 
-// Funzione macchina da scrivere con suono
+// Macchina da scrivere con suono
 function typeWriter(element, speed) {
   const text = element.innerText;
   element.innerText = "";
@@ -158,29 +144,11 @@ function typeWriter(element, speed) {
   }, speed);
 }
 
-// Lancia macchina da scrivere in sequenza
+// Lancia typing in sequenza
 setTimeout(() => { typeWriter(document.getElementById("t1"), 60); }, 4200);
 setTimeout(() => { typeWriter(document.getElementById("t2"), 60); }, 5200);
 setTimeout(() => { typeWriter(document.getElementById("t3"), 60); }, 6200);
 </script>
-
-<!-- CONTENUTO PRINCIPALE -->
-<div id="content">
-  <section class="hero">
-    <h1>WAR ZONE</h1>
-    <p>Un viaggio nella parte più oscura dell’animo umano.</p>
-    <a class="cta-btn" href="https://amzn.eu/d/alqwCAU" target="_blank">Acquista su Amazon</a>
-  </section>
-
-  <section class="preview">
-    <img src="https://qrimpresa.github.io/War-Zone/cover.png" alt="">
-    <h2>Il Libro</h2>
-    <p style="margin-top:15px; line-height:1.6; opacity:.85;">
-      Una storia che trascina dentro un confine sottile tra morale,
-      sopravvivenza e scelte irreversibili.
-    </p>
-  </section>
-</div>
 
 </body>
 </html>
