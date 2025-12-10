@@ -1,266 +1,178 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WAR ZONE – Official Landing</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WAR ZONE · Libro</title>
 
-<style>
-/* ------------------------------------
-   PALETTE / FONT / BASE
-------------------------------------- */
-:root {
-  --black: #000;
-  --dark: #0d0d0d;
-  --gray: #1a1a1a;
-  --gold: #c8a96a;
-  --white: #f2f2f2;
-  --font-main: "Inter", sans-serif;
-  --font-title: "Playfair Display", serif;
-}
+  <style>
+    /* ------------------------------
+       PALETTE & GLOBAL
+    ------------------------------ */
+    :root {
+      --c1: #0b0d10;
+      --c2: #14171c;
+      --c3: #d4ae61;
+      --light: #ffffff;
+      --text: #e6e6e6;
+      --accent: #d4ae61;
+    }
 
-body {
-  margin: 0;
-  background: var(--black);
-  color: var(--white);
-  font-family: var(--font-main);
-  overflow-x: hidden;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", system-ui, sans-serif;
+    }
 
-/* ------------------------------------
-   VIDEO BACKGROUND
-------------------------------------- */
-.video-bg {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 0.15;
-  z-index: -2;
-}
+    body {
+      background: var(--c1);
+      color: var(--text);
+      overflow-x: hidden;
+    }
 
-/* Nebbia overlay */
-.nebbia {
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: url('https://i.imgur.com/lCMlw8G.png');
-  background-size: cover;
-  opacity: 0.25;
-  mix-blend-mode: screen;
-  z-index: -1;
-}
+    /* ------------------------------
+       HERO SECTION
+    ------------------------------ */
+    .hero {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 20px;
 
-/* ------------------------------------
-   HERO
-------------------------------------- */
-.hero {
-  text-align: center;
-  padding: 180px 20px 120px;
-}
+      background: linear-gradient(
+          rgba(0, 0, 0, 0.75),
+          rgba(0, 0, 0, 0.75)
+        ),
+        url('https://images.unsplash.com/photo-1604937455095-ef81f125f7a8?q=80&w=1200&auto=format&fit=crop')
+          center/cover no-repeat;
 
-.hero h1 {
-  font-family: var(--font-title);
-  font-size: 60px;
-  color: var(--gold);
-  line-height: 1;
-  margin-bottom: 20px;
-}
+      animation: fadeIn 1.4s ease-out forwards;
+    }
 
-.hero p {
-  font-size: 22px;
-  max-width: 650px;
-  margin: 0 auto 40px;
-  opacity: 0.9;
-}
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
 
-.btn-amazon {
-  display: inline-block;
-  background: var(--gold);
-  color: var(--black);
-  padding: 16px 38px;
-  font-size: 20px;
-  border-radius: 6px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: 0.3s;
-}
-.btn-amazon:hover { transform: scale(1.06); }
+    .hero h1 {
+      font-size: 3rem;
+      color: var(--light);
+      line-height: 1.1;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
 
-.copertina {
-  margin-top: 50px;
-  width: 320px;
-  filter: drop-shadow(0px 0px 25px rgba(200,169,106,0.4));
-  animation: tilt 6s ease-in-out infinite alternate;
-}
+    .hero p {
+      margin-top: 20px;
+      font-size: 1.15rem;
+      opacity: 0.9;
+    }
 
-@keyframes tilt {
-  from { transform: rotateY(-4deg); }
-  to   { transform: rotateY(4deg); }
-}
+    .cta-btn {
+      margin-top: 40px;
+      font-size: 1.2rem;
+      padding: 16px 28px;
+      background: var(--accent);
+      color: #000;
+      border-radius: 6px;
+      border: none;
+      text-decoration: none;
+      font-weight: 700;
+      display: inline-block;
+      transition: 0.25s;
+      box-shadow: 0 0 25px rgba(212, 174, 97, 0.35);
+    }
 
-/* ------------------------------------
-   SECTION GLOBAL
-------------------------------------- */
-section {
-  padding: 120px 20px;
-  max-width: 1100px;
-  margin: auto;
-}
+    .cta-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 35px rgba(212,174,97,0.55);
+    }
 
-/* TITOLI */
-h2 {
-  font-family: var(--font-title);
-  font-size: 46px;
-  color: var(--gold);
-  text-align: center;
-  margin-bottom: 40px;
-}
+    /* ------------------------------
+       BOOK PREVIEW
+    ------------------------------ */
+    .preview {
+      padding: 60px 25px;
+      text-align: center;
+      background: var(--c2);
+    }
 
-/* ------------------------------------
-   SPLIT SCROLL
-------------------------------------- */
-.split {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+    .preview img {
+      max-width: 290px;
+      width: 80%;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+    }
 
-.split div {
-  flex: 1;
-  background: linear-gradient(180deg, #0d0d0d, #161616);
-  padding: 30px;
-  border-radius: 8px;
-  border: 1px solid #222;
-  min-width: 260px;
-  text-align: center;
-}
+    .preview h2 {
+      font-size: 1.9rem;
+      margin-bottom: 15px;
+      color: var(--light);
+      font-weight: 700;
+    }
 
-.split div h3 {
-  font-family: var(--font-title);
-  font-size: 26px;
-  color: var(--gold);
-}
+    .preview p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      line-height: 1.55;
+    }
 
-/* ------------------------------------
-   CAROUSEL FRASE
-------------------------------------- */
-.carousel {
-  margin-top: 60px;
-  font-size: 26px;
-  text-align: center;
-  min-height: 40px;
-  opacity: 0.9;
-  animation: carousel 12s infinite;
-}
+    .divider {
+      width: 80px;
+      height: 3px;
+      background: var(--accent);
+      margin: 25px auto;
+      border-radius: 2px;
+    }
 
-@keyframes carousel {
-  0%   { content:"Most people fear what they cannot explain."; }
-  33%  { content:"Darkness is not the enemy. Ignorance is."; }
-  66%  { content:"Every truth begins where comfort ends."; }
-}
-
-.carousel::after {
-  content: "Most people fear what they cannot explain.";
-  animation: testo 12s infinite;
-}
-
-@keyframes testo {
-  0%,20%   { content:"Most people fear what they cannot explain."; }
-  33%,53%  { content:"Darkness is not the enemy. Ignorance is."; }
-  66%,86%  { content:"Every truth begins where comfort ends."; }
-}
-
-/* ------------------------------------
-   AUTORE
-------------------------------------- */
-.autore {
-  text-align: center;
-  max-width: 700px;
-  margin: auto;
-  opacity: 0.85;
-  line-height: 1.6;
-  font-size: 20px;
-}
-
-/* ------------------------------------
-   CTA FINALE
-------------------------------------- */
-.final-cta {
-  text-align:center;
-  padding:150px 20px;
-  background: #000;
-}
-.final-cta h2 {
-  font-size: 50px;
-}
-.final-cta a { margin-top:40px; display:inline-block; }
-
-@media(max-width: 600px){
-  .hero h1{ font-size: 40px; }
-  .hero p{ font-size: 18px; }
-  .copertina{ width: 250px; }
-  h2{ font-size: 32px; }
-  .carousel{ font-size: 20px; }
-}
-</style>
+    /* ------------------------------
+       FOOTER
+    ------------------------------ */
+    footer {
+      padding: 30px;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.5;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- VIDEO -->
-<video class="video-bg" autoplay muted loop>
-  <source src="https://cdn.coverr.co/videos/coverr-the-dark-smoke-1076/1080p.mp4" type="video/mp4">
-</video>
-
-<div class="nebbia"></div>
-
-<!-- HERO -->
-<div class="hero">
-  <h1>WAR ZONE</h1>
-  <p>Tre racconti che ti trascinano nell’oscurità.  
-  Dove la paura diventa rivelazione.</p>
-
-  <a class="btn-amazon" href="https://amzn.eu/d/alqwCAU" target="_blank">Acquista su Amazon</a>
-
-  <img class="copertina" src="https://qrimpresa.github.io/War-Zone/cover.jpg" alt="Copertina War Zone">
-</div>
-
-<!-- SEZIONE – ESPERIENZA -->
-<section>
-  <h2>Clarity in the Darkness</h2>
-
-  <div class="split">
+  <!-- HERO -->
+  <section class="hero">
     <div>
-      <h3>Inferno</h3>
-      <p>Una spirale di droga, demoni interiori e ombre che non appartengono a questo mondo.</p>
+      <h1>WAR ZONE</h1>
+      <p>Un viaggio senza ritorno nella parte più oscura dell'animo umano.</p>
+      <a class="cta-btn" href="https://amzn.eu/d/alqwCAU" target="_blank">
+        Acquista su Amazon
+      </a>
     </div>
-    <div>
-      <h3>La Casa sul Lago</h3>
-      <p>Una mente tormentata. Una casa silenziosa. Un segreto che galleggia appena sotto la superficie.</p>
-    </div>
-    <div>
-      <h3>Punto d’Origine</h3>
-      <p>Ogni male ha un inizio. Ma non sempre conviene scoprirlo davvero.</p>
-    </div>
-  </div>
+  </section>
 
-  <div class="carousel"></div>
-</section>
+  <!-- BOOK PREVIEW -->
+  <section class="preview">
+    <img src="https://qrimpresa.github.io/War-Zone/cover.png" alt="War Zone Book Cover">
+    <h2>Il Libro</h2>
+    <div class="divider"></div>
 
-<!-- AUTORE -->
-<section>
-  <h2>Chi Ha Osato Scriverlo</h2>
-  <p class="autore">
-    Cosimo Mero scava nelle zone d’ombra dell’animo umano e le trasforma in storie che restano impresse.  
-    War Zone non è un libro da leggere: è un’esperienza che cambia la percezione di ciò che chiamiamo “paura”.
-  </p>
-</section>
+    <p>
+      Un racconto che ti trascina dentro una spirale di scelte impossibili,
+      moralità spezzata e sopravvivenza al limite.  
+      Nessuno esce da questa storia uguale a prima.
+    </p>
+  </section>
 
-<!-- CTA FINALE -->
-<section class="final-cta">
-  <h2>Osa Entrare nella Zona</h2>
-  <a class="btn-amazon" href="https://amzn.eu/d/alqwCAU" target="_blank">Acquista War Zone</a>
-</section>
+  <footer>
+    Copyright © 2025
+  </footer>
 
 </body>
 </html>
