@@ -22,43 +22,38 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  flex-direction: column;
+  z-index: 100;
 }
 
-/* Contenitore titolo rivelato dal fumo */
-.smoke-title {
-  width: 100%;
-  height: 200px;
-  position: relative;
-  mask-image: url(#mask-title);
-  -webkit-mask-image: url(#mask-title);
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: center;
-  -webkit-mask-position: center;
-  mask-size: contain;
-  -webkit-mask-size: contain;
-  opacity: 0;
-  animation: reveal 4s forwards;
-}
-
-/* Dissolvenza intro dopo animazione */
-@keyframes reveal {
-  0% { opacity: 0; }
-  40% { opacity: 0.4; }
-  80% { opacity: 0.9; }
-  100% { opacity: 1; }
-}
-
-#smoke {
+/* VIDEO FUMO */
+#smokevideo {
   position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.8;
+  object-fit: cover;
+  opacity: 0.7;
 }
 
-/* LANDING NORMALE */
+/* TITOLO EMERGENTE */
+#title {
+  font-size: 60px;
+  font-weight: 900;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: #ffffff;
+  opacity: 0;
+  z-index: 5;
+  animation: reveal 3.5s forwards;
+}
+
+@keyframes reveal {
+  0% { opacity: 0; filter: blur(20px); transform: scale(1.4); }
+  60% { opacity: 1; filter: blur(8px); transform: scale(1.1); }
+  100% { opacity: 1; filter: blur(0px); transform: scale(1); }
+}
+
+/* LANDING */
 #landing {
   display: none;
   padding: 40px 20px;
@@ -69,7 +64,6 @@ body {
   width: 250px;
   border-radius: 10px;
   box-shadow: 0 5px 30px rgba(0,0,0,0.6);
-  margin-top: 20px;
 }
 
 .btn {
@@ -87,33 +81,17 @@ body {
 
 <body>
 
-<!-- INTRO -->
+<!-- INTRO FUMO -->
 <div id="intro">
-  <!-- FUMO -->
-  <svg id="smoke" viewBox="0 0 800 600" preserveAspectRatio="none">
-    <filter id="smoke-filter">
-      <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="4" seed="3"/>
-      <feDisplacementMap in="SourceGraphic" scale="60"/>
-    </filter>
 
-    <rect width="800" height="600" fill="#000" filter="url(#smoke-filter)">
-      <animate attributeName="y" values="600;0;600" dur="6s" repeatCount="indefinite"/>
-    </rect>
+  <!-- VIDEO FUMO (compatibile iPhone/Android) -->
+  <video id="smokevideo" autoplay muted playsinline>
+    <source src="https://cdn.coverr.co/videos/coverr-smoke-rising-6822/1080p.mp4" type="video/mp4">
+  </video>
 
-    <defs>
-      <!-- MASCHERA DEL TESTO -->
-      <mask id="mask-title">
-        <rect width="100%" height="100%" fill="white"/>
-        <text x="50%" y="60%" text-anchor="middle" fill="black"
-              font-size="120px" font-family="Impact, sans-serif" letter-spacing="6">
-          WAR ZONE
-        </text>
-      </mask>
-    </defs>
-  </svg>
+  <!-- TITOLO -->
+  <div id="title">WAR ZONE</div>
 
-  <!-- Testo rivelato dal fumo -->
-  <div class="smoke-title"></div>
 </div>
 
 <!-- LANDING NORMALE -->
@@ -125,15 +103,17 @@ body {
 </div>
 
 <script>
-// Rimuovi intro e mostra landing dopo 4.5s
+// Dopo 4 secondi, mostra la landing
 setTimeout(() => {
   document.getElementById("intro").style.opacity = "0";
+  document.body.style.overflow = "auto";
+  
   setTimeout(() => {
     document.getElementById("intro").style.display = "none";
-    document.body.style.overflow = "auto";
     document.getElementById("landing").style.display = "block";
   }, 1000);
-}, 4500);
+
+}, 4000);
 </script>
 
 </body>
