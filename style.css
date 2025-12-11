@@ -42,12 +42,12 @@ body {
   white-space: nowrap;
   overflow: hidden;
   width: 0;
-  animation: typing 3s steps(50, end) forwards 1.5s, blinkCursor 0.7s step-end infinite alternate;
+  animation: typing 3s steps(60, end) forwards 1.5s, blinkCursor 0.7s step-end infinite alternate;
 }
 
 @keyframes typing {
   from { width: 0; }
-  to { width: 450px; }
+  to { width: 500px; }
 }
 
 @keyframes blinkCursor {
@@ -60,6 +60,7 @@ body {
   display: none;
   padding: 40px 20px;
   text-align: center;
+  overflow: auto;
 }
 
 #cover {
@@ -78,14 +79,15 @@ body {
   border-radius: 6px;
   text-decoration: none;
   transition: all 0.3s ease;
+  margin-bottom: 30px;
 }
 .btn:hover {
   transform: scale(1.1);
   box-shadow: 0 0 20px #d4ae61;
 }
 
-#details {
-  margin-top: 40px;
+section {
+  margin-top: 30px;
   text-align: left;
   max-width: 700px;
   margin-left: auto;
@@ -94,10 +96,16 @@ body {
   font-size: 18px;
 }
 
+.final {
+  margin-top: 40px;
+  text-align: center;
+  font-weight: bold;
+}
+
 /* RESPONSIVE */
 @media (max-width: 600px) {
   #title { font-size: 60px; }
   #subtitle { font-size: 18px; width: 280px; }
   #cover { width: 180px; }
-  #details { font-size: 16px; }
+  section { font-size: 16px; }
 }
