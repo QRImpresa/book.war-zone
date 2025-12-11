@@ -1,27 +1,9 @@
-/* BODY */
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
   overflow: hidden;
   background: #000;
   color: #fff;
-}
-
-/* SFONDO DINAMICO */
-#background {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(45deg, #111, #222, #000);
-  background-size: 600% 600%;
-  animation: gradientMove 15s ease infinite;
-  z-index: 0;
-}
-
-/* GRADIENT ANIMATO */
-@keyframes gradientMove {
-  0% {background-position:0% 50%;}
-  50% {background-position:100% 50%;}
-  100% {background-position:0% 50%;}
 }
 
 /* INTRO */
@@ -32,27 +14,26 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 10;
   text-align: center;
+  z-index: 10;
 }
 
-/* TITOLI */
 #title {
   font-size: 90px;
   font-weight: 900;
   text-transform: uppercase;
   color: #bbb;
-  text-shadow: 0 0 5px #fff, 0 0 20px #d4ae61;
-  animation: neonBlink 1.5s infinite alternate;
+  filter: blur(15px);
+  opacity: 0;
+  animation: focusTitle 3s forwards;
 }
 
-@keyframes neonBlink {
-  0% {text-shadow: 0 0 5px #fff, 0 0 20px #d4ae61;}
-  50% {text-shadow: 0 0 20px #fff, 0 0 40px #d4ae61;}
-  100% {text-shadow: 0 0 5px #fff, 0 0 20px #d4ae61;}
+@keyframes focusTitle {
+  0% { opacity: 0; filter: blur(15px); transform: scale(1.5); }
+  50% { opacity: 1; filter: blur(8px); transform: scale(1.1); }
+  100% { opacity: 1; filter: blur(0px); transform: scale(1); }
 }
 
-/* SOTTOTITOLO SCRITTO A MACCHINA */
 #subtitle {
   margin-top: 20px;
   font-size: 22px;
@@ -61,7 +42,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   width: 0;
-  animation: typing 3s steps(40, end) forwards 1.5s, blinkCursor 0.7s step-end infinite alternate;
+  animation: typing 3s steps(50, end) forwards 1.5s, blinkCursor 0.7s step-end infinite alternate;
 }
 
 @keyframes typing {
@@ -77,8 +58,6 @@ body {
 /* LANDING */
 #landing {
   display: none;
-  position: relative;
-  z-index: 20;
   padding: 40px 20px;
   text-align: center;
 }
@@ -105,9 +84,20 @@ body {
   box-shadow: 0 0 20px #d4ae61;
 }
 
+#details {
+  margin-top: 40px;
+  text-align: left;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
 /* RESPONSIVE */
 @media (max-width: 600px) {
   #title { font-size: 60px; }
   #subtitle { font-size: 18px; width: 280px; }
   #cover { width: 180px; }
+  #details { font-size: 16px; }
 }
