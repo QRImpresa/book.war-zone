@@ -5,156 +5,135 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WAR ZONE</title>
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
-
 <style>
 body {
   margin: 0;
   background: #000;
   color: #fff;
-  font-family: "Inter", sans-serif;
+  font-family: Arial, sans-serif;
   overflow: hidden;
-  text-align: center;
 }
 
-/* ---------------------- INTRO ---------------------- */
+/* INTRO FULLSCREEN */
 #intro {
   position: fixed;
   inset: 0;
   background: #000;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 10;
 }
 
-.title {
-  font-family: 'Black Ops One', cursive;
-  font-size: 4rem;
-  color: #d4ae61;
-  text-transform: uppercase;
-  opacity: 0;
+/* Contenitore titolo rivelato dal fumo */
+.smoke-title {
+  width: 100%;
+  height: 200px;
   position: relative;
-}
-
-/* Lampeggio lento e glitch solo sul titolo */
-@keyframes blinkGlitch {
-  0%, 60%, 100% { opacity: 1; transform: translate(0,0); color:#d4ae61; }
-  10% { opacity: 0; transform: translate(-2px,1px); color:#ffcc00; }
-  20% { opacity: 1; transform: translate(2px,-1px); color:#d4ae61; }
-  30% { opacity: 0; transform: translate(-1px,2px); color:#ffcc00; }
-  40% { opacity: 1; transform: translate(1px,-2px); color:#d4ae61; }
-  50% { opacity: 0; transform: translate(-2px,1px); color:#ffcc00; }
-  70% { opacity: 1; transform: translate(0,0); color:#d4ae61; }
-  80% { opacity: 0; transform: translate(1px,1px); color:#ffcc00; }
-  90% { opacity: 1; transform: translate(-1px,-1px); color:#d4ae61; }
-}
-
-.title.blink {
-  animation: blinkGlitch 0.6s linear infinite;
-}
-
-.txt-seq {
+  mask-image: url(#mask-title);
+  -webkit-mask-image: url(#mask-title);
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
   opacity: 0;
-  margin-top: 20px;
-  font-size: 1.2rem;
-  white-space: pre-wrap;
-  color: #fff;
+  animation: reveal 4s forwards;
 }
 
-/* ---------------------- COPERTINA + CTA ---------------------- */
-#cover-container {
-  opacity: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+/* Dissolvenza intro dopo animazione */
+@keyframes reveal {
+  0% { opacity: 0; }
+  40% { opacity: 0.4; }
+  80% { opacity: 0.9; }
+  100% { opacity: 1; }
 }
 
-@keyframes fadeInCover {
-  0% { opacity: 0; transform: translateY(-50px) scale(0.8); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+#smoke {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
 }
 
-#cover-container img {
+/* LANDING NORMALE */
+#landing {
+  display: none;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+#cover {
   width: 250px;
-  max-width: 70%;
-  border-radius: 8px;
-  box-shadow: 0 8px 40px rgba(0,0,0,.5);
+  border-radius: 10px;
+  box-shadow: 0 5px 30px rgba(0,0,0,0.6);
+  margin-top: 20px;
 }
 
-.cta-btn {
+.btn {
   display: inline-block;
-  padding: 16px 30px;
+  margin-top: 25px;
+  padding: 15px 25px;
   background: #d4ae61;
   color: #000;
   font-weight: 700;
   border-radius: 6px;
   text-decoration: none;
-  transition: .3s;
 }
-.cta-btn:hover { transform: scale(1.06); }
 </style>
 </head>
+
 <body>
 
 <!-- INTRO -->
 <div id="intro">
-  <div id="warzone-title" class="title blink">WAR ZONE</div>
-  <div id="t1" class="txt-seq">Nessuno può scappare da ciò che lo aspetta.</div>
-  <div id="t2" class="txt-seq">La linea tra bene e male svanisce.</div>
-  <div id="t3" class="txt-seq">Entra. Se hai il coraggio.</div>
+  <!-- FUMO -->
+  <svg id="smoke" viewBox="0 0 800 600" preserveAspectRatio="none">
+    <filter id="smoke-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="4" seed="3"/>
+      <feDisplacementMap in="SourceGraphic" scale="60"/>
+    </filter>
+
+    <rect width="800" height="600" fill="#000" filter="url(#smoke-filter)">
+      <animate attributeName="y" values="600;0;600" dur="6s" repeatCount="indefinite"/>
+    </rect>
+
+    <defs>
+      <!-- MASCHERA DEL TESTO -->
+      <mask id="mask-title">
+        <rect width="100%" height="100%" fill="white"/>
+        <text x="50%" y="60%" text-anchor="middle" fill="black"
+              font-size="120px" font-family="Impact, sans-serif" letter-spacing="6">
+          WAR ZONE
+        </text>
+      </mask>
+    </defs>
+  </svg>
+
+  <!-- Testo rivelato dal fumo -->
+  <div class="smoke-title"></div>
 </div>
 
-<!-- COPERTINA + PULSANTE -->
-<div id="cover-container">
-  <img src="https://qrimpresa.github.io/War-Zone/cover.png" alt="Copertina War Zone">
-  <a class="cta-btn" href="https://amzn.eu/d/alqwCAU" target="_blank">Acquista su Amazon</a>
+<!-- LANDING NORMALE -->
+<div id="landing">
+  <h1>WAR ZONE</h1>
+  <img id="cover" src="https://qrimpresa.github.io/War-Zone/cover.png">
+  <br>
+  <a class="btn" href="https://amzn.eu/d/alqwCAU" target="_blank">Acquista su Amazon</a>
 </div>
 
 <script>
-// Blocca lampeggio/glitch dopo 4 secondi
+// Rimuovi intro e mostra landing dopo 4.5s
 setTimeout(() => {
-  const title = document.getElementById("warzone-title");
-  title.classList.remove("blink"); // titolo si ferma
-  title.style.transform = "none";
-  title.style.color = "#d4ae61";
-  title.style.opacity = "1";
-}, 4000);
-
-// Audio macchina da scrivere
-const audio = new Audio('https://www.soundjay.com/keyboard/sounds/keyboard-1.mp3');
-audio.volume = 0.15;
-
-// Macchina da scrivere senza tremolio
-function typeWriter(element, speed) {
-  const text = element.innerText;
-  element.innerText = "";
-  element.style.opacity = 1;
-  let i = 0;
-  const timer = setInterval(() => {
-    element.innerText += text.charAt(i);
-    i++;
-    audio.currentTime = 0;
-    audio.play();
-    if (i >= text.length) clearInterval(timer);
-  }, speed);
-}
-
-// Sequenza typing frasi
-setTimeout(() => { typeWriter(document.getElementById("t1"), 60); }, 4200);
-setTimeout(() => { typeWriter(document.getElementById("t2"), 60); }, 5200);
-setTimeout(() => { typeWriter(document.getElementById("t3"), 60); }, 6200);
-
-// Alla fine del typing, nascondi intro e mostra copertina + pulsante
-setTimeout(() => {
-  document.getElementById("intro").style.display = "none";
-  const cover = document.getElementById("cover-container");
-  cover.style.opacity = "1";
-  cover.style.animation = "fadeInCover 1.5s forwards";
-}, 7200);
+  document.getElementById("intro").style.opacity = "0";
+  setTimeout(() => {
+    document.getElementById("intro").style.display = "none";
+    document.body.style.overflow = "auto";
+    document.getElementById("landing").style.display = "block";
+  }, 1000);
+}, 4500);
 </script>
 
 </body>
