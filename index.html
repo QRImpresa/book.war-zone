@@ -1,62 +1,400 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WAR ZONE</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>War Zone · Cosimo Mero</title>
+
+  <!-- Font (Inter + Oswald + Playfair) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Oswald:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #000000;
+      --white: #ffffff;
+      --red: #8B0000;
+      --muted: #bdbdbd;
+      --hero-height: 100vh;
+      --header-height: 86px; /* altezza quando il logo si sposta in alto */
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;}
+    body{
+      font-family: "Inter",system-ui,Arial,Helvetica,sans-serif;
+      background:var(--bg);
+      color:var(--white);
+      overflow:hidden; /* bloccato fino a fine intro */
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+
+    /* ---------- HERO (full-screen intro) ---------- */
+    #hero {
+      position: fixed;
+      inset: 0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background: linear-gradient(180deg,#000 0%, #070707 100%);
+      z-index:120;
+      transition: all 900ms cubic-bezier(.2,.9,.2,1);
+      padding-top: 0;
+    }
+
+    /* Box frasi */
+    #phrase-box {
+      font-size: clamp(18px, 2.2vw, 28px);
+      max-width: 1100px;
+      padding: 0 20px;
+      color: var(--white);
+      opacity: 0;
+      transform: translateY(0);
+      transition: opacity 600ms ease, transform 600ms ease;
+      letter-spacing: 0.2px;
+    }
+
+    /* logo (PNG) - inizialmente nascosto */
+    #hero-logo {
+      width: clamp(280px, 44vw, 620px);
+      max-width: 90%;
+      margin-top: 28px;
+      display: block;
+      opacity: 0;
+      transform: scale(1.12);
+      transition: opacity 900ms ease, transform 900ms cubic-bezier(.2,.9,.2,1);
+      will-change: transform, opacity;
+      filter: drop-shadow(0 24px 40px rgba(0,0,0,.7));
+    }
+
+    /* Lo stato "shrinked" sposta e riduce l'area hero in header */
+    #hero.shrink {
+      height: var(--header-height);
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 12px;
+      background: linear-gradient(180deg,#000 0%, #050505 100%);
+      box-shadow: 0 6px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Logo quando shrink: ridotto e posizionato al centro in alto */
+    #hero.shrink #hero-logo {
+      width: clamp(140px, 12vw, 220px);
+      transform: translateY(0) scale(0.45);
+      opacity: 1;
+      transition: transform 900ms cubic-bezier(.2,.9,.2,1), width 900ms, opacity 600ms;
+      margin-top: 0;
+    }
+
+    /* Frase box nascosta quando shrink */
+    #hero.shrink #phrase-box {
+      opacity: 0;
+      transform: translateY(-6px) scale(.98);
+      transition: opacity 400ms ease;
+      pointer-events:none;
+      height:0;
+    }
+
+    /* ---------- CONTENT (landing) ---------- */
+    #content {
+      position: relative;
+      z-index: 10;
+      display: none; /* visibile solo dopo intro */
+      padding-top: calc(var(--header-height) + 30px); /* lascia spazio per header */
+      background: var(--bg);
+      min-height: 100vh;
+    }
+
+    .war-container{ max-width:1200px; margin:0 auto; padding:0 20px; }
+
+    /* Reintegro del markup originale - semplificato e reso bianco su nero */
+    .war-hero {
+      padding: 40px 0 80px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:40px;
+    }
+    .war-hero-inner{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:48px;
+      align-items:center;
+      width:100%;
+      max-width:1200px;
+    }
+    .war-cover{
+      width:100%;
+      max-width:420px;
+      height:auto;
+      border:3px solid var(--red);
+      box-shadow: 0 20px 40px rgba(139,0,0,0.15);
+      display:block;
+      margin:0 auto;
+    }
+
+    .war-hero-text{ text-align:left; }
+    .war-title{
+      font-family: "Oswald",sans-serif;
+      font-size: clamp(36px, 6.5vw, 72px);
+      color:var(--white);
+      letter-spacing:2px;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+    .war-author{
+      font-family: "Playfair Display", serif;
+      font-style:italic;
+      color:var(--white);
+      opacity:.95;
+      margin-bottom:14px;
+      font-size:18px;
+    }
+    .war-subtitle{ font-size:18px; margin-bottom:18px; color:var(--muted); }
+    .war-benefits{ list-style:none; margin-bottom:30px; padding-left:0; color:var(--white); }
+    .war-benefits li{ padding-left:28px; margin-bottom:12px; position:relative; font-size:16px;}
+    .war-benefits li::before{ content:'›'; position:absolute; left:0; color:var(--red); font-weight:700;}
+    .war-cta{ display:inline-block; background:var(--red); color:var(--white); padding:14px 34px; text-decoration:none; border-radius:6px; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+    .war-cta:hover{ transform:translateY(-4px); box-shadow:0 10px 30px rgba(139,0,0,0.22); }
+
+    /* other sections keep your original styles but white-on-black */
+    .war-retro{ background:transparent; padding:72px 0; }
+    .war-backcover{ background:rgba(255,255,255,0.02); padding:48px; border-left:4px solid var(--red); color:var(--white); font-style:italic; max-width:900px; margin:0 auto; line-height:1.7; }
+    .war-contents{ padding:80px 0; }
+    .war-section-title{ font-family: "Oswald",sans-serif; color:var(--white); text-transform:uppercase; text-align:center; margin-bottom:32px; font-size:32px; letter-spacing:2px;}
+    .war-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:28px; }
+    .war-card{ background:rgba(255,255,255,0.02); padding:28px; border-radius:10px; text-align:center; border:1px solid rgba(255,255,255,0.03); }
+    .war-card h3{ color:var(--white); margin-top:12px; margin-bottom:10px; font-family:"Oswald",sans-serif; font-size:20px; }
+    .war-icon{ font-size:40px; }
+
+    .war-audience{ background:transparent; padding:80px 0; }
+    .war-columns{ display:grid; grid-template-columns:1fr 1fr; gap:40px; max-width:1000px; margin:0 auto; }
+    .war-yes li, .war-no li{ padding:10px 0 10px 28px; position:relative; }
+    .war-yes li::before{ content:'✓'; position:absolute; left:0; color:var(--red); }
+    .war-no li::before{ content:'✗'; position:absolute; left:0; color:#ff6666; }
+
+    .war-author-sec{ padding:80px 0; }
+    .war-author-box{ display:grid; grid-template-columns:200px 1fr; gap:32px; align-items:center; max-width:900px; margin:0 auto; }
+    .war-author-img{ width:200px; height:200px; object-fit:cover; border-radius:50%; border:4px solid var(--red); }
+
+    .war-final-cta{ padding:96px 0; background:transparent; text-align:center; }
+    .war-cta-big{ display:inline-block; background:var(--red); color:var(--white); padding:18px 48px; text-decoration:none; font-weight:800; border-radius:8px; }
+    .war-price{ margin-top:14px; opacity:.9; }
+
+    footer.war-footer{ padding:34px 0; color:var(--white); text-align:center; background:transparent; }
+
+    /* responsive adjustments */
+    @media (max-width:900px){
+      .war-hero-inner{ grid-template-columns: 1fr; text-align:center; gap:28px; }
+      .war-hero-text{ text-align:center; }
+      .war-author-box{ grid-template-columns:1fr; text-align:center; }
+      .war-hero{ padding:30px 0; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- INTRO -->
-<div id="intro">
-  <h1 id="title">WAR ZONE</h1>
-  <p id="subtitle">Thriller + due racconti che ti tengono sveglio tutta la notte</p>
-</div>
-
-<!-- LANDING -->
-<div id="landing">
-
-  <!-- Contenuti testuali -->
-  <section id="description">
-    <p>Entra in una ricca collezione di tre storie che spingono ai confini della nostra espressione. Abilmente realizzato con prosa fluente e immagini potenti, War Zone scruta oltre l'ordinario ed il banale...</p>
-    <p>In Inferno, entrerai nel mondo oscuro del traffico di droga colombiano, ma con un inquietante svolta soprannaturale. In La Casa sul Lago, scruterai nella mente nebbiosa di Guglielmo D'Aquino. E in Punto D'origine, seguirai un uomo irrimediabilmente perduto mentre fa una scoperta strana e terrificante.</p>
-  </section>
-
-  <section id="contents">
-    <h2>Cosa troverai dentro</h2>
-    <h3>INFERNO</h3>
-    <p>Il mondo oscuro del traffico di droga colombiano con un inquietante svolta soprannaturale</p>
-    <h3>LA CASA SUL LAGO</h3>
-    <p>La mente nebbiosa di Guglielmo D'Aquino che cerca disperatamente delle risposte</p>
-    <h3>PUNTO D'ORIGINE</h3>
-    <p>Un uomo irrimediabilmente perduto fa una scoperta strana e terrificante</p>
-  </section>
-
-  <section id="audience">
-    <h2>Per chi è War Zone</h2>
-    <ul>
-      <li>Ami il thriller che non molla mai</li>
-      <li>Cerchi finali che ti spiazzano</li>
-      <li>Esplori le profondità dell'arte e dell'espressione</li>
-    </ul>
-  </section>
-
-  <section id="author">
-    <h2>L'autore</h2>
-    <h3>COSIMO MERO</h3>
-    <p>Autore thriller con storie che non dormono mai. Vive tra Lecce e le pagine che scrivono da sole.</p>
-  </section>
-
-  <!-- Copertina e CTA finale -->
-  <div id="cta">
-    <img id="cover" src="assets/cover.png" alt="Copertina War Zone">
-    <br>
-    <a class="btn" href="https://amzn.eu/d/alqwCAU" target="_blank">Acquista su Amazon</a>
+  <!-- HERO (phrases + logo) -->
+  <div id="hero" role="region" aria-label="Intro War Zone">
+    <div id="phrase-box" aria-hidden="false" ></div>
+    <!-- logo PNG: assicurati che questo file esista in assets/war-zone-logo.png -->
+    <img id="hero-logo" src="assets/war-zone-logo.png" alt="War Zone logo" />
   </div>
 
-</div>
+  <!-- CONTENT (la tua landing integrata) -->
+  <main id="content" aria-live="polite">
+    <section class="war-hero">
+      <div class="war-hero-inner war-container">
+        <img src="imgs/warzone-cover.jpg" alt="Copertina War Zone di Così o Mero" class="war-cover">
+        <div class="war-hero-text">
+          <h1 class="war-title">WAR ZONE</h1>
+          <p class="war-author">Cosimo Mero</p>
+          <p class="war-subtitle">Thriller + due racconti che ti tengono sveglio tutta la notte</p>
 
-<script src="script.js"></script>
+          <ul class="war-benefits">
+            <li>Tensione che sale pagina dopo pagina</li>
+            <li>Personaggi che non ti lasciano respirare</li>
+            <li>Finale che non ti aspettavi</li>
+          </ul>
+
+          <a href="https://amzn.eu/d/9e7WweL" class="war-cta" target="_blank" rel="noopener">LEGGI ORA SU AMAZON</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="war-retro">
+      <div class="war-container">
+        <blockquote class="war-backcover">
+          <p>Entra in una ricca collezione di tre storie che spingono ai confini della nostra espressione.</p>
+          <p>Abilmente realizzato con prosa fluente e immagini potenti, War Zone scruta oltre l'ordinario ed il banale, estraendo dall'eterna sorgente le emozioni e i conflitti che si nascondono nel profondo di ognuno di noi. Come un'espressione fortemente personale che desidera raggiungere e connettersi con le menti affini, queste tre storie fondono la malinconia con l'affascinante, esplorando nuovi paradigmi di esperienza che si intrecciano attraverso il dramma vivido e la narrativa.</p>
+          <p><strong>In Inferno,</strong> entrerai nel mondo oscuro del traffico di droga colombiano, ma con un inquietante svolta sopran-naturale. <strong>In La Casa sul Lago,</strong> scruterai nella mente nebbiosa di Guglielmo D'aquino mentre cerca disperatamente delle risposte. E <strong>in Punto D'origine,</strong> seguirai un uomo irrimediabilmente perduto mentre fa una scoperta strana e terrificante.</p>
+          <p>Perfetto per i lettori che vogliono esplorare le profondità dell'arte e dell'espressione, War Zone è una lettura affascinante che attraversa confini e generi. Queste tre storie apriranno nuove porte del pensiero e vi costringeranno a contemplare ogni racconto.</p>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="war-contents">
+      <div class="war-container">
+        <h2 class="war-section-title">Cosa troverai dentro</h2>
+
+        <div class="war-cards">
+          <div class="war-card">
+            <div class="war-icon">🔥</div>
+            <h3>INFERNO</h3>
+            <p>Il mondo oscuro del traffico di droga colombiano<br>con un inquietante svolta soprannaturale</p>
+          </div>
+
+          <div class="war-card">
+            <div class="war-icon">🏚️</div>
+            <h3>LA CASA SUL LAGO</h3>
+            <p>La mente nebbiosa di Guglielmo D'Aquino<br>che cerca disperatamente delle risposte</p>
+          </div>
+
+          <div class="war-card">
+            <div class="war-icon">🌀</div>
+            <h3>PUNTO D'ORIGINE</h3>
+            <p>Un uomo irrimediabilmente perduto<br>fa una scoperta strana e terrificante</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="war-audience">
+      <div class="war-container">
+        <h2 class="war-section-title">Per chi è War Zone</h2>
+
+        <div class="war-columns">
+          <div class="war-yes">
+            <h3>È PER TE SE...</h3>
+            <ul>
+              <li>Ami il thriller che non molla mai</li>
+              <li>Cerchi finali che ti spiazzano</li>
+              <li>Esplori le profondità dell'arte e dell'espressione</li>
+            </ul>
+          </div>
+
+          <div class="war-no">
+            <h3>NON È PER TE SE...</h3>
+            <ul>
+              <li>Preferisci storie "tranquille"</li>
+              <li>Non sopporti l'adrenalina</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="war-author-sec">
+      <div class="war-container">
+        <h2 class="war-section-title">L'autore</h2>
+        <div class="war-author-box">
+          <img src="imgs/author.jpg" alt="Così o Mero autore" class="war-author-img">
+          <div>
+            <h3>COSIMO MERO</h3>
+            <p>Autore thriller con storie che non dormono mai.<br>Vive tra Lecce e le pagine che scrivono da sole.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="war-final-cta">
+      <div class="war-container">
+        <h2>War Zone ti aspetta. Non rimandare.</h2>
+        <a href="https://amzn.eu/d/9e7WweL" class="war-cta-big" target="_blank" rel="noopener">COMPRA ORA SU AMAZON</a>
+        <p class="war-price">Solo 4.99€ – Kindle illimitato disponibile</p>
+      </div>
+    </section>
+
+    <footer class="war-footer">
+      <div class="war-container">
+        <p>© 2025 Cosimo Mero | <a href="https://amzn.eu/d/9e7WweL" target="_blank" rel="noopener">War Zone</a></p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    /* ====== SEQUENZA HERO: frasi -> logo -> shrink -> reveal content ====== */
+
+    (function(){
+      const phrases = [
+        "Hai mai avuto la sensazione che qualcuno ti stia osservando?",
+        "A volte il pericolo non arriva da fuori... ma da dentro.",
+        "Il silenzio può nascondere più di quanto sembri.",
+        "Ci sono storie che non abbandoni... nemmeno a pagina chiusa."
+      ];
+
+      const phraseBox = document.getElementById('phrase-box');
+      const heroLogo = document.getElementById('hero-logo');
+      const hero = document.getElementById('hero');
+      const content = document.getElementById('content');
+
+      let i = 0;
+      const showTime = 2600; // ms visibile ogni frase
+      const fade = 600; // fade-in/out
+
+      function showNext(){
+        if(i < phrases.length){
+          phraseBox.style.opacity = 0;
+          // small delay to ensure fade effect
+          setTimeout(()=>{
+            phraseBox.textContent = phrases[i];
+            phraseBox.style.opacity = 1;
+          }, 80);
+
+          i++;
+          // hide after showTime
+          setTimeout(()=>{
+            phraseBox.style.opacity = 0;
+          }, showTime);
+          // schedule next
+          setTimeout(showNext, showTime + 220);
+        } else {
+          // fine frasi -> mostra logo
+          phraseBox.style.opacity = 0;
+          setTimeout(()=> phraseBox.style.display = 'none', fade+120);
+
+          // show logo (fade & scale to natural)
+          setTimeout(()=>{
+            heroLogo.style.display = 'block';
+            // slight delay then reveal
+            setTimeout(()=>{
+              heroLogo.style.opacity = 1;
+              heroLogo.style.transform = 'scale(1)';
+            }, 80);
+          }, 300);
+
+          // mantieni logo grande per 1700ms, poi shrink & move up
+          setTimeout(()=>{
+            // add class shrink to hero: header-like
+            hero.classList.add('shrink');
+
+            // allow body scroll and show content
+            setTimeout(()=>{
+              content.style.display = 'block';
+              // give small delay before allowing scroll to make transform fluid
+              setTimeout(()=> document.body.style.overflow = 'auto', 100);
+              // smooth scroll so user sees the content appear under header
+              window.scrollTo({top:0, behavior:'smooth'});
+            }, 600);
+
+          }, 2000 + 300); // 2s big logo display
+        }
+      }
+
+      // kick off sequence after tiny delay so fonts & images can layout
+      window.addEventListener('load', ()=> {
+        // reset: hide logo initially
+        heroLogo.style.display = 'none';
+        heroLogo.style.opacity = 0;
+        heroLogo.style.transform = 'scale(1.12)';
+
+        // small initial pause then start
+        setTimeout(()=> showNext(), 450);
+      });
+    })();
+  </script>
 </body>
 </html>
